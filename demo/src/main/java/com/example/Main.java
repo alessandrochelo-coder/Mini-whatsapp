@@ -5,5 +5,7 @@ public class Main {
        
        Broker broker = new Broker();
        broker.startBroker();
+       Client cliente = new Client();
+       cliente.startClient();
     }
 }

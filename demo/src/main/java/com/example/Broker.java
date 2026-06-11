@@ -10,6 +10,8 @@ import io.moquette.broker.config.MemoryConfig;
 
 public class Broker {
 
+      Server broker = new Server();
+
       public Broker()
       {
          
@@ -18,7 +20,7 @@ public class Broker {
      public void startBroker()
      {
           try{
-          Server broker = new Server();
+        //broker = new Server();
         Properties config = new Properties();
         config.setProperty("port", "1883");
         config.setProperty("host", "0.0.0.0");
@@ -31,4 +33,15 @@ public class Broker {
           }
      } 
 
-}
+     public void stopBroker()
+     {
+            try{
+               //broker = new Server();
+               broker.stopServer();
+               System.out.println("Broker fermato");
+            }catch(Exception e)
+            {
+               e.printStackTrace();
+     }
+
+}}

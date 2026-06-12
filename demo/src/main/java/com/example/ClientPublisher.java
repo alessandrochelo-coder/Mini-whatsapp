@@ -8,7 +8,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import java.util.Scanner;
 
-public class ClientPublisher{
+public class ClientPublisher implements Runnable {
     
 MqttClient clientP;
 boolean running = false;
@@ -28,7 +28,27 @@ boolean running = false;
     this.running = running1;
     }
 
+    
+
     public void startPublisher()
+    {
+        new Thread(this).start();
+    }
+
+    public void stopPublisher()
+    {
+        try{
+            clientP.disconnect();
+            clientP.close();
+            System.out.println("PUBSClient disconnesso");
+            }catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+    }
+    
+    @Override
+    public void run()
     {
         try
         {
@@ -70,17 +90,6 @@ boolean running = false;
         {
             System.out.println("Errore: " + e.getMessage());
         }
-    }
-
-    public void stopPublisher()
-    {
-        try{
-            clientP.disconnect();
-            clientP.close();
-            System.out.println("PUBSClient disconnesso");
-            }catch(Exception e)
-            {
-                e.printStackTrace();
-            }
+        
     }
 }

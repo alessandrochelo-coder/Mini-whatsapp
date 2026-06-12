@@ -8,7 +8,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import java.util.Scanner;
 
-public class Client implements MqttCallback {
+public class Client implements MqttCallback, Runnable {
 
 MqttClient client;
 
@@ -44,10 +44,31 @@ public void setRunning(boolean running1)
 
     }
 
+    
+
     public void startCliente()
     {
+        new Thread(this).start();
+       
 
-        Scanner scanner = new Scanner(System.in);
+    }
+
+
+public void stopCliente()
+        {
+            try{
+                client.disconnect();
+            client.close();
+            System.out.println("SUBClient disconnesso");
+            }catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+@Override
+public void run() {
+    Scanner scanner = new Scanner(System.in);
 
         try {
              client = new MqttClient(
@@ -86,19 +107,8 @@ public void setRunning(boolean running1)
         }
     
         scanner.close();
-
-    }
-public void stopCliente()
-        {
-            try{
-                client.disconnect();
-            client.close();
-            System.out.println("SUBClient disconnesso");
-            }catch(Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
+    throw new UnsupportedOperationException("Unimplemented method 'run'");
+}
 
 
 
